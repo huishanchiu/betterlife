@@ -1,78 +1,72 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { ref } from 'vue'
 import HelloWorld from './components/HelloWorld.vue'
+import planet from './assets/icon/planet.svg'
+import darkMode from './assets/icon/darkmode-8bit.svg'
+import avatar from './assets/icon/avatar.svg'
 </script>
 
 <template>
-  <!-- <header>
+  <header>
     <nav>
-      <RouterLink to="/">Homess</RouterLink>
+      <div class="menu-left">
+        <RouterLink class="menu" to="/">
+          <img :src="planet" alt="planet" class="main-logo" />
+          職涯探險隊</RouterLink
+        >
+        <RouterLink class="menu" to="/mock-interview">AI模擬面試</RouterLink>
+        <RouterLink class="menu" to="/interview-questions">面試題庫</RouterLink>
+        <RouterLink class="menu" to="/interview-experience">面試經驗</RouterLink>
+        <RouterLink class="menu" to="/about">關於我們</RouterLink>
+      </div>
+      <div class="menu-right">
+        <img class="icon" :src="darkMode" alt="" @click="toggleDarkMode" />
+        <img class="icon" :src="avatar" alt="" @click="toggleDarkMode" />
+      </div>
+      <div></div>
     </nav>
-  </header> -->
+  </header>
 
-  <RouterView />
+  <RouterView id="body" />
 </template>
 
 <style scoped>
+#body {
+  padding: 0 2rem;
+}
+.menu {
+  display: flex;
+  line-height: 40px;
+}
+.menu-left {
+  margin: 0;
+  display: flex;
+}
+.menu-right {
+  margin: 0;
+  display: flex;
+  margin-left: auto;
+}
 header {
-  line-height: 1.5;
-  max-height: 100vh;
+  position: sticky;
+  top: 0;
+  background-color: orange;
+  padding: 1rem;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
+a {
+  margin-right: 2rem;
+  font-size: 18px;
 }
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.icon {
+  width: 30px;
+  margin-left: 30px;
 }
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.main-logo {
+  padding-right: 10px;
 }
 </style>

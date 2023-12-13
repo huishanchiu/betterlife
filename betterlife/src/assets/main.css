@@ -3,33 +3,46 @@
 #app {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-
   font-weight: normal;
 }
 
-a,
-.green {
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: #545f71;
   transition: 0.4s;
 }
 
-@media (hover: hover) {
+/* @media (hover: hover) {
   a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
+    background-color: hsla(0, 0%, 100%, 0.2);
+  }
+} */
+
+/* @media (prefers-color-scheme: light) {
+  #app {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
   }
 }
 
-/* @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
+@media (prefers-color-scheme: dark) {
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+    color: #213547;
+    background-color: pink;
   }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
+/* html {
+  filter: invert(85%) hue-rotate(190deg);
 } */
