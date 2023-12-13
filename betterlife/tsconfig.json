@@ -10,5 +10,9 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "path": {
+    "@/*": ["./src/*"],
+    "@assets/*": ["src/assets/*"]
+  }
 }
