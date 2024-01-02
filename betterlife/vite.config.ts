@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.hackmd.io/v1', // 這裡填寫你的 API 服務器地址
+        target: 'https://api.hackmd.io/v1',
         changeOrigin: true,
         rewrite: (path: string) => path.replace(/^\/api/, '') // 可選的路徑重寫
       }

@@ -3,6 +3,7 @@ import InterView from '../views/InterView.vue'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import Questions from '../views/Questions.vue'
+import Note from '../views/Note.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,6 +22,11 @@ const router = createRouter({
       path: '/interview-questions',
       name: 'interview-questions',
       component: Questions
+    },
+    {
+      path: '/interview-questions/:id',
+      name: 'note',
+      component: Note
     },
     {
       path: '/about',

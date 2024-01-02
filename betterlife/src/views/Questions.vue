@@ -1,59 +1,104 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watchEffect } from 'vue'
 
 const notes = ref([])
+const displayNotes = ref([])
 const englishNotes = ref([])
 const jsNotes = ref([])
 const netNotes = ref([])
-
-const submit = () => {
-  console.log('SUBMIT')
-}
 
 const bearerToken = import.meta.env.VITE_HACKMD_TOCKEN
 const url = '/api/notes'
 
 const fetchAllNotes = async () => {
-  const response = await fetch(url, {
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: `Bearer ${bearerToken}`
-    }
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${bearerToken}`
+      }
+    })
+    const data = await response.json()
+    // return data.value
+    notes.value = data
+  } catch (error) {
+    // handle error
+  }
+}
+
+displayNotes.value = notes.value.filter((item) => {
+  return item.tags.includes('Js')
+})
+
+const filtNote = (tag) => {
+  displayNotes.value = notes.value.filter((item, index) => {
+    return item.tags.includes(`${tag}`)
   })
-  notes.value = await response.json()
 }
 
 onMounted(async () => {
   await fetchAllNotes()
-  englishNotes.value = notes.value.filter((item) => {
-    return item.tags.includes('英文口說')
-  })
-  jsNotes.value = notes.value.filter((item) => {
-    return item.tags.includes('Js')
-  })
-  netNotes.value = notes.value.filter((item) => {
-    return item.tags.includes('瀏覽器')
-  })
-  console.log('note2', notes.value)
+  filtNote('Js')
 })
+
+const formsLength = computed(() => {
+  let count = 0
+  console.log('notes.value', notes.value)
+  return notes.value.length
+})
+
+const jsNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('Js')).length
+})
+const leetCodeNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('leetCode')).length
+})
+const broswerNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('瀏覽器')).length
+})
+const closureNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('Closure')).length
+})
+const arrayNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('Array')).length
+})
+const cssNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('css')).length
+})
+const promiseNotesCount = computed(() => {
+  return notes.value.filter((item) => item.tags.includes('Promise')).length
+})
+
+if (navigator.mediaDevices) {
+  console.log('getUserMedia supported.')
+} else {
+  console.log('getUserMedia not supported on your browser!')
+}
 </script>
 
 <template>
   <div class="wrapper">
     <div class="content">
       <div class="categoryWrapper">
-        <div class="category">Javascript</div>
-        <div class="category">LeetCode</div>
-        <div class="category">瀏覽器</div>
-        <div class="category">Closure</div>
-        <div class="category">Array</div>
-        <div class="category">CSS</div>
-
-        <div class="category">Promise</div>
+        <div class="category" @click="filtNote('Js')">Javascript ({{ jsNotesCount }})</div>
+        <div class="category" @click="filtNote('leetCode')">
+          LeetCode ({{ leetCodeNotesCount }})
+        </div>
+        <div class="category" @click="filtNote('瀏覽器')">瀏覽器 ({{ broswerNotesCount }})</div>
+        <div class="category" @click="filtNote('Closure')">Closure ({{ closureNotesCount }})</div>
+        <div class="category" @click="filtNote('Array')">Array ({{ arrayNotesCount }})</div>
+        <div class="category" @click="filtNote('css')">CSS ({{ cssNotesCount }})</div>
+        <div class="category" @click="filtNote('Promise')">Promise ({{ promiseNotesCount }})</div>
       </div>
       <div class="title">Javascript</div>
-      <div v-for="(item, index) in jsNotes">
-        <div class="noteTitle">{{ index + 1 }}. {{ item.title }}</div>
+      <div v-for="(item, index) in displayNotes">
+        <div class="noteTitle">
+          <a class="noteTitleAtag" :href="`interview-questions/${item.shortId}`">
+            {{ index + 1 }}. {{ item.title }}</a
+          >
+
+          <a :href="`interview-questions/${item.shortId}`" class="seemore">看詳解</a>
+        </div>
       </div>
     </div>
   </div>
@@ -87,10 +132,20 @@ onMounted(async () => {
 .noteTitle {
   font-size: 15px;
   padding: 10px;
-  /* border: grey solid 1px; */
   background-color: beige;
-
   margin: 5px;
   border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+.noteTitleAtag:hover {
+  color: #ffa500;
+}
+.seemore {
+  color: rgb(133, 133, 133);
+  cursor: pointer;
+}
+.seemore:hover {
+  color: #ffa500;
 }
 </style>
