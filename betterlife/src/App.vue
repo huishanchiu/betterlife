@@ -17,7 +17,7 @@ import avatar from './assets/icon/avatar.svg'
         >
         <RouterLink class="menu" to="/mock-interview">AI模擬面試</RouterLink>
         <RouterLink class="menu" to="/interview-questions">面試題庫</RouterLink>
-        <RouterLink class="menu" to="/interview-experience">面試經驗</RouterLink>
+        <!-- <RouterLink class="menu" to="/interview-experience">面試經驗</RouterLink> -->
         <RouterLink class="menu" to="/about">關於我們</RouterLink>
       </div>
       <div class="menu-right">
@@ -51,6 +51,7 @@ import avatar from './assets/icon/avatar.svg'
 header {
   position: sticky;
   top: 0;
+  left: 0;
   background-color: orange;
   padding: 1rem;
 }
