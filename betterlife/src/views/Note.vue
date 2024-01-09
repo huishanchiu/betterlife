@@ -34,14 +34,8 @@ onMounted(() => {
   fetchNote()
 })
 
-const formatCodeBlocks = () => {
-  // 在数据加载后调用 Prism.js 来美化代码块
-  Prism.highlightAll()
-}
-
 onUpdated(() => {
-  // 监听 Markdown 内容变化，当内容更新时重新美化代码块
-  formatCodeBlocks()
+  Prism.highlightAll()
 })
 
 const formattedText = computed(() => {

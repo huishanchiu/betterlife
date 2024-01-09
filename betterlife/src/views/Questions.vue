@@ -6,6 +6,7 @@ const displayNotes = ref([])
 const englishNotes = ref([])
 const jsNotes = ref([])
 const netNotes = ref([])
+const title = ref('')
 
 const bearerToken = import.meta.env.VITE_HACKMD_TOCKEN
 const url = '/api/notes'
@@ -30,7 +31,17 @@ displayNotes.value = notes.value.filter((item) => {
   return item.tags.includes('Js')
 })
 
+const noteCategories = ['Js', 'leetCode', '瀏覽器', 'Closure', 'Array', 'css', 'Promise']
+
+let noteCounts
+let noteCountsss
+
 const filtNote = (tag) => {
+  title.value = tag
+  noteCounts = computed(() => {
+    return notes.value.filter((item) => item.tags.includes('Js')).length
+  })
+
   displayNotes.value = notes.value.filter((item, index) => {
     return item.tags.includes(`${tag}`)
   })
@@ -47,21 +58,6 @@ const formsLength = computed(() => {
   return notes.value.length
 })
 
-const jsNotesCount = computed(() => {
-  return notes.value.filter((item) => item.tags.includes('Js')).length
-})
-const leetCodeNotesCount = computed(() => {
-  return notes.value.filter((item) => item.tags.includes('leetCode')).length
-})
-const broswerNotesCount = computed(() => {
-  return notes.value.filter((item) => item.tags.includes('瀏覽器')).length
-})
-const closureNotesCount = computed(() => {
-  return notes.value.filter((item) => item.tags.includes('Closure')).length
-})
-const arrayNotesCount = computed(() => {
-  return notes.value.filter((item) => item.tags.includes('Array')).length
-})
 const cssNotesCount = computed(() => {
   return notes.value.filter((item) => item.tags.includes('css')).length
 })
@@ -74,29 +70,33 @@ if (navigator.mediaDevices) {
 } else {
   console.log('getUserMedia not supported on your browser!')
 }
+
+const generateCount = (tag) => {
+  let count = 0
+  count = computed(() => {
+    return notes.value.filter((item) => item.tags.includes(tag)).length
+  })
+  return count
+}
 </script>
 
 <template>
   <div class="wrapper">
     <div class="content">
       <div class="categoryWrapper">
-        <div class="category" @click="filtNote('Js')">Javascript ({{ jsNotesCount }})</div>
-        <div class="category" @click="filtNote('leetCode')">
-          LeetCode ({{ leetCodeNotesCount }})
+        <div v-for="(category, index) in noteCategories">
+          <div class="category" @click="filtNote(category)">
+            {{ category }} ({{ generateCount(category) }})
+          </div>
         </div>
-        <div class="category" @click="filtNote('瀏覽器')">瀏覽器 ({{ broswerNotesCount }})</div>
-        <div class="category" @click="filtNote('Closure')">Closure ({{ closureNotesCount }})</div>
-        <div class="category" @click="filtNote('Array')">Array ({{ arrayNotesCount }})</div>
-        <div class="category" @click="filtNote('css')">CSS ({{ cssNotesCount }})</div>
-        <div class="category" @click="filtNote('Promise')">Promise ({{ promiseNotesCount }})</div>
       </div>
-      <div class="title">Javascript</div>
+      <!-- <div class="title">Javascript</div> -->
+      <div class="title">{{ title }}</div>
       <div v-for="(item, index) in displayNotes">
         <div class="noteTitle">
           <a class="noteTitleAtag" :href="`interview-questions/${item.shortId}`">
             {{ index + 1 }}. {{ item.title }}</a
           >
-
           <a :href="`interview-questions/${item.shortId}`" class="seemore">看詳解</a>
         </div>
       </div>
