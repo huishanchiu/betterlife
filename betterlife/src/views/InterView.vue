@@ -1,9 +1,33 @@
 <script setup lang="ts">
+import { ref, onMounted, computed, watchEffect, onUpdated } from 'vue'
 import TheWelcome from '../components/TheWelcome.vue'
+import { doc, getDoc, getFirestore } from 'firebase/firestore'
+import db from '../utils/firebase.ts'
 
-const submit = () => {
-  console.log('SUBMIT')
+//
+import { initializeApp } from 'firebase/app'
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyCkypBRI7sPFWBYE0g4xNPbz0I6RZVKg1E',
+  authDomain: 'betterlife-bc973.firebaseapp.com',
+  projectId: 'betterlife-bc973',
+  storageBucket: 'betterlife-bc973.appspot.com',
+  messagingSenderId: '18446899821',
+  appId: '1:18446899821:web:28080bb85fd492795cfd64',
+  measurementId: 'G-WNHNJ6H3BB'
 }
+
+onMounted(async () => {
+  const docRef = doc(db, 'topics', 'sports')
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    console.log('Document data:', docSnap.data())
+  } else {
+    // docSnap.data() will be undefined in this case
+    console.log('No such document!')
+  }
+})
 </script>
 
 <template>
@@ -64,3 +88,4 @@ const submit = () => {
   height: 400px;
 }
 </style>
+../utils/firebase.ts
